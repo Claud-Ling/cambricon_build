@@ -1,3 +1,4 @@
 output/
 buildroot/
 package/linux/
+package/arm-trusted-firmware/
