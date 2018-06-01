@@ -1,0 +1,104 @@
+config BR2_TARGET_UBOOT
+	bool "U-Boot"
+	help
+	  Build "Das U-Boot" Boot Monitor
+
+if BR2_TARGET_UBOOT
+choice
+	prompt "Build system"
+	default BR2_TARGET_UBOOT_BUILD_SYSTEM_LEGACY
+
+config BR2_TARGET_UBOOT_BUILD_SYSTEM_LEGACY
+	bool "Legacy"
+	help
+	  Select this option if you use an old U-Boot (older than
+	  2015.04), so that we use the old build system.
+
+config BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG
+	bool "Kconfig"
+	help
+	  Select this option if you use a recent U-Boot version (2015.04
+	  or newer), so that we use the Kconfig build system.
+
+endchoice
+
+if BR2_TARGET_UBOOT_BUILD_SYSTEM_LEGACY
+config BR2_TARGET_UBOOT_BOARDNAME
+	string "U-Boot board name"
+	help
+	  One of U-Boot supported boards to be built.
+	  This will be suffixed with _config to meet U-Boot standard
+	  naming. See boards.cfg in U-Boot source code for the list of
+	  available configurations.
+endif
+
+
+
+if BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG
+choice
+	prompt "U-Boot configuration"
+	default BR2_TARGET_UBOOT_USE_DEFCONFIG
+
+config BR2_TARGET_UBOOT_USE_DEFCONFIG
+	bool "Using an in-tree board defconfig file"
+
+config BR2_TARGET_UBOOT_USE_CUSTOM_CONFIG
+	bool "Using a custom board (def)config file"
+
+endchoice
+
+config BR2_TARGET_UBOOT_BOARD_DEFCONFIG
+	string "Board defconfig"
+	depends on BR2_TARGET_UBOOT_USE_DEFCONFIG
+	help
+	  Name of the board for which U-Boot should be built, without
+	  the _defconfig suffix.
+
+config BR2_TARGET_UBOOT_CUSTOM_CONFIG_FILE
+	string "Configuration file path"
+	depends on BR2_TARGET_UBOOT_USE_CUSTOM_CONFIG
+	help
+	  Path to the U-Boot configuration file.
+endif
+
+config BR2_TARGET_UBOOT_NEEDS_DTC
+	bool "U-Boot needs dtc"
+	select BR2_PACKAGE_HOST_DTC
+	help
+	  Select this option if your U-Boot board configuration
+	  requires the Device Tree compiler to be available.
+
+config BR2_TARGET_UBOOT_NEEDS_ATF_BL31
+	bool "U-Boot needs ATF BL31"
+	depends on BR2_TARGET_ARM_TRUSTED_FIRMWARE
+	depends on !BR2_TARGET_ARM_TRUSTED_FIRMWARE_UBOOT_AS_BL33
+	select BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL31
+	help
+	  Some specific platforms (such as Allwinner A64/H5)
+	  encapsulate the BL31 part of ATF inside U-Boot. This option
+	  makes sure ATF gets built prior to U-Boot, and that the BL31
+	  variable pointing to ATF's BL31 binary, is passed during the
+	  Buildroot build.
+
+menu "U-Boot binary format"
+
+config BR2_TARGET_UBOOT_FORMAT_BIN
+	bool "u-boot.bin"
+	default y
+
+config BR2_TARGET_UBOOT_FORMAT_DTB_BIN
+	bool "u-boot-dtb.bin"
+
+config BR2_TARGET_UBOOT_FORMAT_DTB_IMG
+	bool "u-boot-dtb.img"
+
+config BR2_TARGET_UBOOT_FORMAT_IMG
+	bool "u-boot.img"
+
+config BR2_TARGET_UBOOT_FORMAT_ELF
+	bool "u-boot.elf"
+
+endmenu
+
+
+endif # BR2_TARGET_UBOOT
