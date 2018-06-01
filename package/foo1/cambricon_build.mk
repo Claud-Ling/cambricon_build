@@ -23,9 +23,9 @@ HOST_BUILD_MAKE_OPTS = \
 	__BUILDING_X86_FOO1__=1	\
 	__HELP_FOO1__=1
 
-HOST_BUILD_INSTALL_TARGETS = foo 
-HOST_BUILD_INSTALL_LIBRARIES = libfoo1.so libfoo1.a
-HOST_BUILD_INSTALL_HEADERS = foo1.h
+HOST_BUILD_INSTALL_EXECS = foo 
+HOST_BUILD_INSTALL_LIBRARIES = libfoo1/libfoo1.so libfoo1/libfoo1.a
+HOST_BUILD_INSTALL_HEADERS = inc/foo1.h inc/foo1-a.h
 HOST_BUILD_INSTALL_KMOD =
 
 $(eval $(cambricon-host-generic-package))

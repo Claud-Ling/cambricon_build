@@ -9,6 +9,32 @@
 #
 ################################################################################
 
+#
+# host staging dir: output/.tmp/host (HOST_DIR)
+#
+define install_to_host_staging
+	@$$(INSTALL) -d $$(HOST_DIR)/$(2)
+	$$(INSTALL) -m $(3) $(1) $$(HOST_DIR)/$(2)
+endef
+
+#
+# host finalize dir: output/host (HOST_OUTPUT)
+#
+define install_to_host_finalize
+	@$$(INSTALL) -d $(HOST_OUTPUT)/$(2)
+	$$(INSTALL) -m $(3) $(1) $(HOST_OUTPUT)/$(2)
+endef
+
+#
+# arg1 is the SOURCE file to be installed
+# arg2 is the destination dir (relative path)
+# arg3 is the file mode
+#
+define INSTALL_HOST
+	$(call install_to_host_staging,$(1),$(2),$(3));
+	$(call install_to_host_finalize,$(1),$(2),$(3));
+endef
+
 ################################################################################
 #  argument 1 is the lowercase package name
 #  argument 2 is the uppercase package name, including a HOST_ prefix
@@ -105,14 +131,14 @@ endif
 #
 ifndef $(2)_INSTALL_CMDS
 define $(2)_INSTALL_CMDS
-	$(foreach exec,$(HOST_BUILD_INSTALL_EXECS),\
-		$$(INSTALL) -D $$($$(PKG)_SRCDIR)$(exec) $(HOST_DIR)/usr/local/$(exec)$(sep))
+        $(foreach exec,$(HOST_BUILD_INSTALL_EXECS),\
+                $(call INSTALL_HOST,$$($$(PKG)_SRCDIR)$(exec),local/,0755)$(sep))
 
-	$(foreach lib,$(HOST_BUILD_INSTALL_LIBRARIES),\
-		$$(INSTALL) -D $$($$(PKG)_SRCDIR)$(lib) $(HOST_DIR)/lib/$(lib)$(sep))
+        $(foreach lib,$(HOST_BUILD_INSTALL_LIBRARIES),\
+                $(call INSTALL_HOST,$$($$(PKG)_SRCDIR)$(lib),lib/,0755)$(sep))
 
-	$(foreach header,$(HOST_BUILD_INSTALL_HEADERS),\
-		$$(INSTALL) -D $$($$(PKG)_SRCDIR)$(header) $(HOST_DIR)/include/$(header)$(sep))
+        $(foreach header,$(HOST_BUILD_INSTALL_HEADERS),\
+                $(call INSTALL_HOST,$$($$(PKG)_SRCDIR)$(header),include/,0644)$(sep))
 
 endef
 endif

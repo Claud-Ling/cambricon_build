@@ -1,9 +1,12 @@
 BR2_EXTERNAL := $(CURDIR)
 
 
-BUILDROOT_OUT=$(CURDIR)/output/build
-ARM_OUTPUT=$(CURDIR)/output/arm
-HOST_OUTPUT=$(CURDIR)/output/host
+BUILDROOT_OUT=$(CURDIR)/output/.tmp
+export ARM_OUTPUT=$(CURDIR)/output/arm
+export HOST_OUTPUT=$(CURDIR)/output/host
+
+$(BUILDROOT_OUT) $(ARM_OUTPUT) $(HOST_OUTPUT):
+	@mkdir -p $@
 
 .PHONY: all menuconfig savedefconfig build clean \
 	pkg-%
@@ -12,23 +15,23 @@ all: build
 
 %_defconfig:
 	BR2_EXTERNAL=$(BR2_EXTERNAL) \
-		$(MAKE) -C buildroot O=$(output) $@
+		$(MAKE) -C buildroot O=$(BUILDROOT_OUT) $@
 
 menuconfig:
 	BR2_EXTERNAL=$(BR2_EXTERNAL) \
-		$(MAKE) -C buildroot menuconfig O=$(output)
+		$(MAKE) -C buildroot menuconfig O=$(BUILDROOT_OUT)
 savedefconfig:
 	BR2_EXTERNAL=$(BR2_EXTERNAL) \
-		$(MAKE) -C buildroot savedefconfig O=$(output)
+		$(MAKE) -C buildroot savedefconfig O=$(BUILDROOT_OUT)
 
-build:
+build: $(ARM_OUTPUT) $(HOST_OUTPUT)
 	BR2_EXTERNAL=$(BR2_EXTERNAL) \
-		$(MAKE) -C buildroot O=$(output)
+		$(MAKE) -C buildroot O=$(BUILDROOT_OUT)
 
 clean:
 	find $(BUILDROOT_OUT) -mindepth 1 -maxdepth 1 \
 		! -path $(BUILDROOT_OUT)/images -print -exec rm -rf {} \;
-	rm -rf $(BUILDROOT_OUT=)/images/*
+	rm -rf $(BUILDROOT_OUT)/images/*
 
 flush-rootfs:
 	find $(BUILDROOT_OUT) -name .stamp_target_installed -delete
@@ -45,7 +48,7 @@ flush-rootfs:
 # '  pkg-<pkg>-dirclean         - Remove <pkg> build directory'
 # '  pkg-<pkg>-reconfigure      - Restart the build from the configure step'
 # '  pkg-<pkg>-rebuild          - Restart the build from the build step'
-pkg-%:
+pkg-%: $(ARM_OUTPUT) $(HOST_OUTPUT)
 	BR2_EXTERNAL=$(BR2_EXTERNAL) \
 		$(MAKE) -C buildroot $* O=$(BUILDROOT_OUT)
 
