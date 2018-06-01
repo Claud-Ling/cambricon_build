@@ -55,7 +55,7 @@ ifndef $(2)_MAKE
  endif
 endif
 
-$(3)_VERSION		?= 1.0.4
+$(3)_VERSION		?=
 $(2)_SITE		= "${BR2_EXTERNAL_cambricon_buildroot_PATH}/package/$(1)"
 $(2)_SITE_METHOD	= local
 
