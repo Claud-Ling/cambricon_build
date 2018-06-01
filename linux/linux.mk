@@ -15,8 +15,8 @@ define LINUX_HELP_CMDS
 	@echo '                             by BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE'
 endef
 
-LINUX_SITE = "${BR2_EXTERNAL_cambricon_buildroot_PATH}/package/$(1)"
-
+LINUX_SITE = "${BR2_EXTERNAL_cambricon_buildroot_PATH}/package/linux"
+LINUX_SITE_METHOD = local
 
 LINUX_INSTALL_IMAGES = YES
 #LINUX_DEPENDENCIES += host-bison host-flex host-kmod
@@ -39,7 +39,7 @@ LINUX_VERSION_PROBED = `$(MAKE) $(LINUX_MAKE_FLAGS) -C $(LINUX_DIR) --no-print-d
 
 LINUX_DTS_NAME += $(call qstrip,$(BR2_LINUX_KERNEL_INTREE_DTS_NAME))
 
-LINUX_DTBS = $(addsuffix .dtb,$(LINUX_DTS_NAME))
+LINUX_DTBS = $(addsuffix .dtb,$(addprefix cambricon/,$(LINUX_DTS_NAME)))
 
 ifeq ($(BR2_LINUX_KERNEL_IMAGE_TARGET_CUSTOM),y)
 LINUX_IMAGE_NAME = $(call qstrip,$(BR2_LINUX_KERNEL_IMAGE_NAME))
@@ -135,7 +135,7 @@ endif # BR2_LINUX_KERNEL_DTS_SUPPORT
 # Compilation. We make sure the kernel gets rebuilt when the
 # configuration has changed.
 define LINUX_BUILD_CMDS
-	$(LINUX_MAKE_ENV) $(MAKE) $(LINUX_MAKE_FLAGS) -C $(@D) $(LINUX_TARGET_NAME)
+	$(LINUX_MAKE_ENV) $(MAKE) $(LINUX_MAKE_FLAGS) -C $(@D) $(LINUX_TARGET_NAME) -j$(PARALLEL_JOBS)
 	$(LINUX_BUILD_DTB)
 endef
 
