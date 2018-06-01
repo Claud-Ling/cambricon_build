@@ -65,7 +65,7 @@ _print_db:
 
 show-targets:
 	BR2_EXTERNAL=$(BR2_EXTERNAL) \
-		$(MAKE) -C buildroot O=$(BUILDROOT_OUT) lingyun
+		$(MAKE) -C buildroot O=$(BUILDROOT_OUT) graph-build
 
 help:
 	@[ -x $(shell which less) ] && \

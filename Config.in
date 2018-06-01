@@ -1,1 +1,2 @@
+source "$BR2_EXTERNAL_cambricon_buildroot_PATH/boot/Config.in"
 source "$BR2_EXTERNAL_cambricon_buildroot_PATH/linux/Config.in"
