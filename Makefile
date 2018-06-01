@@ -38,19 +38,17 @@ flush-rootfs:
 	rm -rf $(BUILDROOT_OUT)/target/*
 
 # 'Package-specific:'
-# '  pkg-<pkg>                  - Build and install <pkg> and all its dependencies'
-# '  pkg-<pkg>-source           - Only download the source files for <pkg>'
-# '  pkg-<pkg>-extract          - Extract <pkg> sources'
-# '  pkg-<pkg>-patch            - Apply patches to <pkg>'
-# '  pkg-<pkg>-depends          - Build <pkg>'\''s dependencies'
-# '  pkg-<pkg>-configure        - Build <pkg> up to the configure step'
-# '  pkg-<pkg>-build            - Build <pkg> up to the build step'
-# '  pkg-<pkg>-dirclean         - Remove <pkg> build directory'
-# '  pkg-<pkg>-reconfigure      - Restart the build from the configure step'
-# '  pkg-<pkg>-rebuild          - Restart the build from the build step'
-pkg-%: $(ARM_OUTPUT) $(HOST_OUTPUT)
+# '  [arch]:                       - Should be arm or host
+# '  [arch]-<pkg>                  - Build and install <pkg> and all its dependencies'
+# '  [arch]-<pkg>-build            - Build <pkg> up to the build step'
+# '  [arch]-<pkg>-rebuild          - Restart the build from the build step'
+arm-%: $(ARM_OUTPUT) $(HOST_OUTPUT)
 	BR2_EXTERNAL=$(BR2_EXTERNAL) \
 		$(MAKE) -C buildroot $* O=$(BUILDROOT_OUT)
+
+host-%: $(ARM_OUTPUT) $(HOST_OUTPUT)
+	BR2_EXTERNAL=$(BR2_EXTERNAL) \
+		$(MAKE) -C buildroot host-$* O=$(BUILDROOT_OUT)
 
 rebuild-changed: export BUILD_TEMP=/tmp SINCE=$(SINCE)
 rebuild-changed: _rebuild_changed

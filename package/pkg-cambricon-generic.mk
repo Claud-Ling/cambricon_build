@@ -14,7 +14,7 @@
 #
 define install_to_host_staging
 	@$$(INSTALL) -d $$(HOST_DIR)/$(2)
-	$$(INSTALL) -m $(3) $(1) $$(HOST_DIR)/$(2)
+	@$$(INSTALL) -m $(3) $(1) $$(HOST_DIR)/$(2)
 endef
 
 #
