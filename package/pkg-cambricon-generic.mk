@@ -138,7 +138,7 @@ define $(2)_INSTALL_CMDS
                 $(call INSTALL_HOST,$$($$(PKG)_SRCDIR)$(lib),lib/,0755)$(sep))
 
         $(foreach header,$(HOST_BUILD_INSTALL_HEADERS),\
-                $(call INSTALL_HOST,$$($$(PKG)_SRCDIR)$(header),include/,0644)$(sep))
+                $(call INSTALL_HOST,$$($$(PKG)_SRCDIR)$(header),include/cambricon,0644)$(sep))
 
 endef
 endif
@@ -146,6 +146,19 @@ endif
 # Call the generic package infrastructure to generate the necessary
 # make targets
 $(call inner-generic-package,$(1),$(2),$(3),$(4))
+
+# undefine the reference
+ARM_BUILD_DEPENDENCIES =
+ARM_BUILD_MAKE_OPTS =
+ARM_BUILD_INSTALL_EXECS =
+ARM_BUILD_INSTALL_LIBRARIES =
+ARM_BUILD_INSTALL_HEADERS =
+
+HOST_BUILD_DEPENDENCIES =
+HOST_BUILD_MAKE_OPTS =
+HOST_BUILD_INSTALL_EXECS =
+HOST_BUILD_INSTALL_LIBRARIES =
+HOST_BUILD_INSTALL_HEADERS =
 
 endef
 

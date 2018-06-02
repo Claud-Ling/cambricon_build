@@ -4,7 +4,7 @@
 ################################################################################
 ARM_BUILD_DEPENDENCIES = foo
 
-ARM_BUILD_MAKE_OPTS += \
+ARM_BUILD_MAKE_OPTS = \
 	__BUILDING_ARM_FOO1__=1	\
 	__HELP_FOO1__=1
 
