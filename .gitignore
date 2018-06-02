@@ -2,4 +2,4 @@ output/
 buildroot/
 package/linux/
 package/arm-trusted-firmware/
-package/u-boot/
+package/uboot/

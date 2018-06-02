@@ -11,7 +11,7 @@ UBOOT_LICENSE_FILES = Licenses/gpl-2.0.txt
 
 UBOOT_INSTALL_IMAGES = YES
 
-UBOOT_SITE = "${BR2_EXTERNAL_cambricon_buildroot_PATH}/package/u-boot"
+UBOOT_SITE = "${BR2_EXTERNAL_cambricon_buildroot_PATH}/package/uboot"
 UBOOT_SITE_METHOD = local
 
 ifeq ($(BR2_TARGET_UBOOT_FORMAT_BIN),y)
@@ -106,7 +106,7 @@ endef
 
 define UBOOT_BUILD_CMDS
 	$(TARGET_CONFIGURE_OPTS) \
-		$(MAKE) -C $(@D) $(UBOOT_MAKE_OPTS) \
+		$(MAKE) -C $(@D) $(UBOOT_MAKE_OPTS) -j$(PARALLEL_JOBS) \
 		$(UBOOT_MAKE_TARGET)
 endef
 
@@ -133,9 +133,5 @@ endif # BR2_TARGET_UBOOT_USE_DEFCONFIG
 endif # BR2_TARGET_UBOOT_USE_CUSTOM_CONFIG
 endif # BR2_TARGET_UBOOT_BUILD_SYSTEM_LEGACY
 
-
-
-
-endif # BR2_TARGET_UBOOT && BR_BUILDING
 
 $(eval $(kconfig-package))
