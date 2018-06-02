@@ -38,12 +38,17 @@ flush-rootfs:
 	rm -rf $(BUILDROOT_OUT)/target/*
 
 # 'Package-specific:'
-# '  [pkg]-<pkgname>                  - Build and install <pkg> and all its dependencies'
-# '  [pkg]-<pkgname>-build            - Build <pkg> up to the build step'
-# '  [pkg]-<pkgname>-rebuild          - Restart the build from the build step'
+# '  [host-]pkg-<pkgname>                  - Build and install <pkg> and all its dependencies'
+# '  [host-]pkg-<pkgname>-build            - Build <pkg> up to the build step'
+# '  [host-]pkg-<pkgname>-rebuild          - Restart the build from the build step'
 pkg-%: $(ARM_OUTPUT) $(HOST_OUTPUT)
 	BR2_EXTERNAL=$(BR2_EXTERNAL) \
 		$(MAKE) -C buildroot $* O=$(BUILDROOT_OUT)
+
+host-pkg-%: $(ARM_OUTPUT) $(HOST_OUTPUT)
+	BR2_EXTERNAL=$(BR2_EXTERNAL) \
+		$(MAKE) -C buildroot host-$* O=$(BUILDROOT_OUT)
+
 
 rebuild-changed: export BUILD_TEMP=/tmp SINCE=$(SINCE)
 rebuild-changed: _rebuild_changed
