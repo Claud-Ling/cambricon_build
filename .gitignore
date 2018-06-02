@@ -1,5 +1,4 @@
 output/
 buildroot/
-package/linux/
-package/arm-trusted-firmware/
-package/uboot/
+package/
+!package/pkg-cambricon-generic.mk

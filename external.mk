@@ -9,6 +9,6 @@ include $(sort $(wildcard $(BR2_EXTERNAL_cambricon_buildroot_PATH)/package/*/cam
 
 
 lingyun:
-	@$(call MESSAGE,"####LINGYUN####"$(LINUX_DTBS))
+	@$(call MESSAGE,"####LINGYUN####"$(LINUX_DIR))
 	
 	
