@@ -15,7 +15,7 @@ define LINUX_HELP_CMDS
 	@echo '                             by BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE'
 endef
 
-LINUX_SITE = "${BR2_EXTERNAL_cambricon_buildroot_PATH}/package/linux"
+LINUX_SITE = "${SOURCE_CODE_PATH}/linux"
 LINUX_SITE_METHOD = local
 
 LINUX_INSTALL_IMAGES = YES

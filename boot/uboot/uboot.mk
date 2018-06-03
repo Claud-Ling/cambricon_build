@@ -11,7 +11,7 @@ UBOOT_LICENSE_FILES = Licenses/gpl-2.0.txt
 
 UBOOT_INSTALL_IMAGES = YES
 
-UBOOT_SITE = "${BR2_EXTERNAL_cambricon_buildroot_PATH}/package/uboot"
+UBOOT_SITE = "${SOURCE_CODE_PATH}/uboot"
 UBOOT_SITE_METHOD = local
 
 ifeq ($(BR2_TARGET_UBOOT_FORMAT_BIN),y)
