@@ -113,7 +113,7 @@ define $(2)_INSTALL_TARGET_CMDS
 		$$(INSTALL) -m 0755 $$($$(PKG)_SRCDIR)$(exec) $(TARGET_DIR)/usr/local/$(sep))
 
 	$(foreach lib,$(ARM_BUILD_INSTALL_LIBRARIES),\
-		$$(INSTALL) -m 0755 $$($$(PKG)_SRCDIR)$(lib) $(TARGET_DIR)/lib/$(sep))
+		$$(INSTALL) -m 0755 $$($$(PKG)_SRCDIR)$(lib) $(TARGET_DIR)/usr/lib/$(sep))
 
 
 	$(foreach header,$(ARM_BUILD_INSTALL_HEADERS),\
