@@ -1,25 +1,35 @@
 ## NORMAL TARGETS ##
 
-xxx_defconfig     - Configure buildroot to build, for example:
-                      make c20_defconfig
+xxx_defconfig            - Configure buildroot to build, for example:
+                           make c20_defconfig
 
-build             - Compile buildroot, and assemble all Cambricon project
-                    packages (package/*) 
+build                    - Compile buildroot, and assemble all Cambricon project
+                           packages (package/*) 
 
-clean             - Clean all build materials and output artifacts.
+clean                    - Clean all build materials and output artifacts.
 
-pkg-%
-host-pkg-%        - Run a target inside of buildroot (for the target
-                    system or for the host system), for example:
-                        make pkg-linux-rebuild
-                    Or:
-                        make host-pkg-foo-dirclean
+## Package-specific ##
+
+pkg-<pkgname>
+host-<pkgname>-%         - Run a target inside of buildroot (for the target
+                           system or for the host system), for example:
+                              make pkg-linux-rebuild
+                           Or:
+                              make host-pkg-foo-dirclean
+
+<pkgname>-rebuild        - Restart the build from the build step
+<pkgname>-dirclean       - Remove <pkg> build directory
+
+<pkgname>-depends        - Build <pkgname>'\''s dependencies
+<pkgname>-show-depends   - List packages on which <pkgname> depends
+<pkgname>-show-rdepends  - List packages which have <pkgname> as a dependency
+
 ## UTILITY TARGETS ##
 
-flush-rootfs      - Force buildroot the restage all files in the target
-                    filesystem, useful to ensure the assembled filesystem
-                    image is consistent.
-rebuild-chagned   - Run the buildroot target `<package>-rebuild` for all
-                    external projects that have changed in the current
-                    source tree.
+flush-rootfs             - Force buildroot the restage all files in the target
+                           filesystem, useful to ensure the assembled filesystem
+                           image is consistent.
+rebuild-chagned          - Run the buildroot target `<package>-rebuild` for all
+                           external projects that have changed in the current
+                           source tree.
 
