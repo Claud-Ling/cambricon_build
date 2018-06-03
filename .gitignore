@@ -1,4 +1,3 @@
 output/
 buildroot/
-package/
-!package/pkg-cambricon-generic.mk
+*.swp
